@@ -76,6 +76,8 @@ class QuizApp(tk.Tk):
         self.buttons_frame = tk.Frame(self)
         self.buttons_frame.pack(pady=10)
 
+        self.history_button = tk.Button(self.buttons_frame, text="History", command=self.show_history, bg="gray")
+        self.history_button.pack(side=tk.LEFT, padx=5)
 
         self.score_label = tk.Label(self, text="Score: 0/0", padx=10)
         self.score_label.pack()
@@ -93,7 +95,7 @@ class QuizApp(tk.Tk):
 
     def submit_quiz(self):
         user_answer = self.answer_entry.get()
-        correct_answer = self.questions[self.current_question]"correct_answer"]
+        correct_answer = self.questions[self.current_question]["correct_answer"]
 
         self.user_answers.append((self.current_question, user_answer, correct_answer))
 
@@ -115,6 +117,17 @@ class QuizApp(tk.Tk):
         self.submit_button.config(state="disabled")
         self.help_button.config(state="disabled")
 
+    def show_history(self):
+        history_text = "Quiz History:\n\n"
+        for i, answer in enumerate(self.user_answers, start=1):
+            question_num = answer[0] + 1
+            user_answer = answer[1]
+            correct_answer = answer[2]
+            history_text += f"Question {question_num}:\n"
+            history_text += f"Your Answer: {user_answer}\n"
+            history_text += f"Correct Answer: {correct_answer}\n\n"
+
+        messagebox.showinfo("Quiz History", history_text)
 
     def display_help(self):
         help_text = "How to Play the Quiz:\n\n"
@@ -127,8 +140,6 @@ class QuizApp(tk.Tk):
         help_text += "7. Click the 'Export' button to export the statistics of your answers.\n"
 
         messagebox.showinfo("Quiz Help", help_text)
-
-
 if __name__ == "__main__":
     app = QuizApp()
     app.mainloop()
