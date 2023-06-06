@@ -153,9 +153,10 @@ class QuizApp(tk.Tk):
                 writer.writerow(["Question", "Your Answer", "Correct Answer"])
                 for answer in self.user_answers:
                     question_num = answer[0] + 1
+                    question = self.questions[answer[0]]["question"]
                     user_answer = answer[1]
                     correct_answer = answer[2]
-                    writer.writerow([question_num, user_answer, correct_answer])
+                    writer.writerow([f"Question {question_num}: {question}", user_answer, correct_answer])
 
             messagebox.showinfo("Export Successful", f"Statistics exported to {filename}")
 
